@@ -6,7 +6,13 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component"
 // higher order component that let us to have access to redux
 import { connect } from "react-redux"
 
+import { createStructuredSelector } from "reselect"
+
 import { auth } from "../../firebase/firebase.utils"
+
+import { selectCartHidden } from "../../redux/cart/cart.selectors"
+
+import { selectCurrentUser } from "../../redux/user/user.selectors"
 
 import "./header.scss"
 import CartIcon from "../cart-icon/cart-icon.component."
@@ -39,9 +45,10 @@ const Header = ({ currentUser, hidden }) => (
 // info from the store about what we want to connect
 //state is an object and the root reducer
 // currentUser is passed to Header Component
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-  currentUser,
-  hidden
+// createStructuredSelector takes top level state automatically into each selector
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCartHidden
 })
 
 export default connect(mapStateToProps)(Header)
